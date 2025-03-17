@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
+import config from '../config/config.js'
 const dbConnect = async() => {
     try {
-         const connection = await mongoose.connect('mongodb://localhost:27017/finder-job')
+         const connection = await mongoose.connect(config.db.MONGODB_URI)
          console.log('Database is connected')
     } catch (error) {
         console.log(error.message)
