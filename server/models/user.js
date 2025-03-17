@@ -51,6 +51,19 @@ const UserScehma = new mongoose.Schema({
     skills: [String],
     resume: String,
   },
-  
+  recruiter : {
+    companyName : {
+      type : String
+    },
+    companyWebsite : {
+      type : String
+    }
+  }
+
 
 });
+
+
+const User =  mongoose.model('User' , UserScehma) ;
+
+export default User
