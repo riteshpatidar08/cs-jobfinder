@@ -2,9 +2,43 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 function Register() {
-  const { register, handleSubmit, watch,} = useForm();
+  const { register, handleSubmit, watch } = useForm();
+
+  console.log(register('name'));
+
   const onSubmit = (data) => {
     console.log(data);
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('phoneNumber', data.phoneNumber);
+    formData.append('password', data.password);
+    formData.append('role', data.role);
+
+    if (data.role === 'jobseeker') {
+      formData.append(
+        'jobseeker',
+        JSON.stringify({
+          education: [
+            {
+              institution: data.institution,
+              year: data.year,
+              degree: data.degree,
+            },
+          ],
+          experience: [
+            {
+              company: data.company,
+              jobRole: data.jobRole,
+              duration: data.duration,
+            },
+          ],
+          skills: data.skills.split(','),
+          resume: data.resume[0],
+        })
+      );
+    }
+    
   };
 
   const selectedRole = watch('role');
@@ -14,7 +48,8 @@ function Register() {
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="bg-red-500 text-white py-6 px-8">
           <h1 className="text-2xl font-bold">
-            Create your <span className="font-extrabold">JobFinder</span> profile
+            Create your <span className="font-extrabold">JobFinder</span>{' '}
+            profile
           </h1>
           <p className="mt-2 text-white text-opacity-90">
             Search & apply to jobs from India's No.1 Job Site
@@ -29,7 +64,7 @@ function Register() {
               </label>
               <input
                 type="text"
-                {...register('name', { required: true })}
+                {...register('name')}
                 className="w-full text-gray-700 bg-gray-50 focus:bg-white border border-gray-300 focus:border-red-500 rounded-lg px-4 py-2.5 focus:outline-none transition-colors"
                 placeholder="What is your name?"
               />
@@ -41,7 +76,7 @@ function Register() {
               </label>
               <input
                 type="email"
-                {...register('email', { required: true })}
+                {...register('email')}
                 className="w-full text-gray-700 bg-gray-50 focus:bg-white border border-gray-300 focus:border-red-500 rounded-lg px-4 py-2.5 focus:outline-none transition-colors"
                 placeholder="Your Email"
               />
@@ -200,9 +235,10 @@ function Register() {
                         </p>
                       </div> */}
                       <input
-                        type="file"j
+                        type="file"
+                        j
                         {...register('resume')}
-                     className="w-full text-gray-700 bg-gray-50 focus:bg-white border border-gray-300 focus:border-red-500 rounded-lg px-4 py-2.5 focus:outline-none transition-colors"
+                        className="w-full text-gray-700 bg-gray-50 focus:bg-white border border-gray-300 focus:border-red-500 rounded-lg px-4 py-2.5 focus:outline-none transition-colors"
                       />
                     </label>
                   </div>
@@ -247,8 +283,14 @@ function Register() {
           <div className="border-t border-gray-200 pt-6">
             <p className="text-xs text-gray-500">
               By clicking Register, you agree to the{' '}
-              <span className="text-red-500 font-medium hover:underline cursor-pointer">Terms and Conditions</span> &{' '}
-              <span className="text-red-500 font-medium hover:underline cursor-pointer">Privacy Policy</span> of JobFinder.com
+              <span className="text-red-500 font-medium hover:underline cursor-pointer">
+                Terms and Conditions
+              </span>{' '}
+              &{' '}
+              <span className="text-red-500 font-medium hover:underline cursor-pointer">
+                Privacy Policy
+              </span>{' '}
+              of JobFinder.com
             </p>
             <button
               type="submit"
