@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
+import axios from 'axios'
 function Register() {
   const { register, handleSubmit, watch } = useForm();
 
@@ -38,7 +38,18 @@ function Register() {
         })
       );
     }
-    
+
+    if(data.role === 'recruiter'){
+      formData.append('recruiter', JSON.stringify({
+          companyName : data.companyName ,
+          companyWebsite : data.companyWebsite
+      }))
+    }
+
+    console.log(formData)
+    axios.post('http://localhost:3000/api/register',formData).then((data)=>{
+      console.log(data)
+    })
   };
 
   const selectedRole = watch('role');
