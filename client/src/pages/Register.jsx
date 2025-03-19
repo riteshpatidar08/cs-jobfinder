@@ -1,13 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios'
+import axios from 'axios';
 function Register() {
   const { register, handleSubmit, watch } = useForm();
 
   console.log(register('name'));
 
   const onSubmit = (data) => {
-    console.log(data);
+ 
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('email', data.email);
@@ -33,23 +33,36 @@ function Register() {
               duration: data.duration,
             },
           ],
-          skills: data.skills.split(','),
-          resume: data.resume[0],
+          skills: data.skills
+            ? data.skills
+                .split(',')
+                .map((skill) => skill.trim())
+                .filter((skill) => skill)
+            : [],
+        })
+      );
+      formData.append('resume', data.resume[0]);
+    }
+
+    if (data.role === 'recruiter') {
+      formData.append(
+        'recruiter',
+        JSON.stringify({
+          companyName: data.companyName,
+          companyWebsite: data.companyWebsite,
         })
       );
     }
 
-    if(data.role === 'recruiter'){
-      formData.append('recruiter', JSON.stringify({
-          companyName : data.companyName ,
-          companyWebsite : data.companyWebsite
-      }))
-    }
+    console.log(formData);
 
-    console.log(formData)
-    axios.post('http://localhost:3000/api/register',formData).then((data)=>{
-      console.log(data)
-    })
+    axios
+      .post('http://localhost:3000/api/register', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   const selectedRole = watch('role');
