@@ -11,3 +11,7 @@ const payload = {
 const token = jwt.sign(payload ,jwt_secret_string , {expiresIn : '24h'})
 
 console.log(token)
+
+const decoded  = jwt.verify(token , 'jwt_secret_string')
+
+console.log(decoded)

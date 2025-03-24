@@ -84,7 +84,9 @@ export const login = async (req, res) => {
 
     const token = jwt.sign(
       {
-        name: 'ritesh',
+     userId : user._id ,
+     name : user.name ,
+     role : user.role
       },
       config.app.JWT_SECRET,
       { expiresIn: config.app.JWT_EXPIRATION }
