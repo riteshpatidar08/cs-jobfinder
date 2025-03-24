@@ -1,5 +1,7 @@
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from '../config/config.js';
 //creating a register api for the users
 export const register = async (req, res) => {
   try {
@@ -64,22 +66,37 @@ export const login = async (req, res) => {
   //NOTE 1st check find the user using the email
   try {
     const user = await User.findOne({ email });
-    console.log(user)
+    console.log(user);
     if (!user) {
       res.status(404).json({
         message: 'user is not registered please register  and try again',
       });
     }
 
-    const isValidPassword = await bcrypt.compare(password , user.password)
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if(!isValidPassword){
-        res.status(400).json({
-            message : 'Invalid Credentails'
-        })
+    if (!isValidPassword) {
+      res.status(400).json({
+        message: 'Invalid Credentails',
+      });
     }
-    console.log(isValidPassword)
-    
+    console.log(isValidPassword);
 
-  } catch (error) {}
+    const token = jwt.sign(
+      {
+        name: 'ritesh',
+      },
+      config.app.JWT_SECRET,
+      { expiresIn: config.app.JWT_EXPIRATION }
+    );
+    console.log(token);
+    res.status(200).json({
+      message: 'Login successfull',
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
