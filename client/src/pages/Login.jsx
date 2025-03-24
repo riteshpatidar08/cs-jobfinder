@@ -1,14 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+
+import { login } from '../redux/slices/authSlice';
+import { useDispatch } from 'react-redux';
 function Login() {
   const { register, handleSubmit } = useForm();
+const dispatch = useDispatch()
   const onSubmit = (data) => {
     console.log(data);
 
-    axios.post('http://localhost:3000/api/login', data).then((res)=>{
-        console.log(res.data)
-    })
+   dispatch(login(data))
   };
   return (
     <div>

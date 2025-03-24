@@ -3,13 +3,22 @@ import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Homepage from './pages/Homepage';
+import ProtectedRoutes from './components/ProtectedRoutes';
+import UnprotectedRoutes from './components/UnprotectedRoutes';
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route element={<UnprotectedRoutes />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Homepage />} />
+        </Route>
       </Routes>
     </div>
   );
