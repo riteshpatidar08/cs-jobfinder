@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
+
 const initialState = {
-    id : localStorage.getItem('id') || null,
-  role: localStorage.getItem('role')  || null,
+  id: localStorage.getItem('id') || null,
+  role: localStorage.getItem('role') || null,
   error: null,
   loading: false,
   token: localStorage.getItem('token') || null,
@@ -31,15 +32,19 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         console.log(action.payload);
-        const token = action.payload.token
-        console.log(token)
-        const {userId , role , name} = jwtDecode(token)
-       state.role = role ;
-       state.id = userId ;
-       state.token = token ;
-       localStorage.setItem('role' , role)
-       localStorage.setItem('id' , userId)
-       localStorage.setItem('token' , token)
+        const token = action.payload.token;
+        console.log(token);
+        const { userId, role, name } = jwtDecode(token);
+        state.role = role;
+        state.id = userId;
+        state.token = token;
+        state.loading = false;
+        localStorage.setItem('role', role);
+        localStorage.setItem('id', userId);
+        localStorage.setItem('token', token);
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false;
       });
   },
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion'; // Changed from motion/react to framer-motion
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import ProfileDropdown from './ProfileDropdown';
 
 function Navbar() {
   const location = useLocation();
@@ -45,6 +46,11 @@ function Navbar() {
               </Link>
             </div>
           )}
+
+          {/* token hain show profile dropdown */}
+          {localStorage.getItem('token') && <>
+          <ProfileDropdown/>
+          </>}
         </div>
       </nav>
     </div>

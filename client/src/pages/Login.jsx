@@ -1,15 +1,22 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../redux/slices/authSlice';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch , useSelector } from 'react-redux';
+import {useNavigate} from 'react-router-dom'
 function Login() {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
+const {loading} = useSelector((state)=>state.auth)
+console.log(loading)
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(login(data));
+ try {
+    dispatch(login(data)).unwrap()
+ navigate('/')
+ } catch (error) {
+  
+ }
+  
   };
 
   return (
@@ -76,7 +83,7 @@ function Login() {
               type="submit"
               className="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 shadow-sm"
             >
-              Login
+         {loading ? "Signing in..." : "Sign In"}
             </button>
           </div>
 
