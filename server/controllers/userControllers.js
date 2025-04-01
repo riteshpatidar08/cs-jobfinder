@@ -68,7 +68,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
     console.log(user);
     if (!user) {
-      res.status(404).json({
+    return  res.status(404).json({
         message: 'user is not registered please register  and try again',
       });
     }
@@ -76,7 +76,7 @@ export const login = async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      res.status(400).json({
+     return res.status(400).json({
         message: 'Invalid Credentails',
       });
     }
