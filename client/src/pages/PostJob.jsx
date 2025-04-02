@@ -1,4 +1,4 @@
-import { Button, Select, Drawer, TextInput, MultiSelect } from '@mantine/core';
+import { Button, Textarea ,Select, Drawer, TextInput, MultiSelect } from '@mantine/core';
 import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
 
@@ -27,16 +27,21 @@ function PostJob() {
             placeholder="Enter Phone Number"
           />
           <TextInput type="email" label="Email" placeholder="Enter  Email" />
-         <Select
-      label="Experiance"
-      placeholder="Select Experiance"
-      data={['0-1 years', '1-3 years', '3-5 years', '5+ years']}
-    />
-      <MultiSelect
-      label="Requirement"
-      placeholder="Pick requirements"
-      data={ ["Full-time","Part-time", "Contract" , "Internship"]}
-    />
+           <TextInput label="Company Name" placeholder="Enter Company name" />
+            <TextInput label="Location" placeholder="Enter Job Location" />
+           
+             <TextInput label="Requirement" placeholder="Enter Comma Sperated eg: react , javascript " />
+          <Select
+            label="Experiance"
+            placeholder="Select Experiance"
+            data={['0-1 years', '1-3 years', '3-5 years', '5+ years']}
+          />
+          <MultiSelect
+            label="Employment"
+            placeholder="Pick Employment"
+            data={['Full-time', 'Part-time', 'Contract', 'Internship']}
+          />
+          <Textarea label="Job Description" placeholder="Enter Job Description" />
           <Button mt={10} variant="default">
             ADD JOB
           </Button>
