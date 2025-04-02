@@ -10,11 +10,14 @@ function Login() {
   const { loading } = useSelector((state) => state.auth);
   console.log(loading);
   const onSubmit = (data) => {
-    try {
-      dispatch(login(data)).unwrap();
-      navigate('/');
-    } catch (error) {}
-  };
+  
+      dispatch(login(data)).unwrap().then(()=>{
+        navigate('/')
+      }).catch((err)=>{
+        console.log(er)
+      });
+     
+    }
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">

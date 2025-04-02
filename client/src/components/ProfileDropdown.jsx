@@ -1,5 +1,6 @@
 import React from 'react'
 import { Menu , Avatar } from '@mantine/core'
+import { Link } from 'react-router-dom'
 function ProfileDropdown() {
   return (
     <div>
@@ -11,6 +12,11 @@ function ProfileDropdown() {
     <Menu.Label>
         Profile
     </Menu.Label>
+     <Menu.Item >
+      <Link to='/postjob'>
+      Post Job
+      </Link>
+        </Menu.Item>
      <Menu.Item >
           Settings
         </Menu.Item>

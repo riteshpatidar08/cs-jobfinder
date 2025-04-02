@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Homepage from './pages/Homepage';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import UnprotectedRoutes from './components/UnprotectedRoutes';
+import PostJob from './pages/PostJob';
 function App() {
   return (
     <div>
@@ -19,6 +20,7 @@ function App() {
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Homepage />} />
+          <Route path='/postjob' element={<PostJob/>} />
         </Route>
       </Routes>
     </div>
