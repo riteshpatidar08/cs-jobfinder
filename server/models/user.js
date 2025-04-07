@@ -51,19 +51,28 @@ const UserScehma = new mongoose.Schema({
     skills: [String],
     resume: String,
   },
-  recruiter : {
-    companyName : {
-      type : String
+  recruiter: {
+    companyName: {
+      type: String,
     },
-    companyWebsite : {
-      type : String
-    }
-  }
-
-
+    companyWebsite: {
+      type: String,
+    },
+  },
 });
 
+UserScehma.pre('save', function (next) {
+  if (this.role === 'recruiter') {
+    this.jobseeker = undefined;
+    next();
+  }
 
-const User =  mongoose.model('User' , UserScehma) ;
+  if (this.role === 'jobseeker') {
+    this.recruiter = undefined;
+    next();
+  }
+});
 
-export default User
+const User = mongoose.model('User', UserScehma);
+
+export default User;

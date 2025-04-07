@@ -17,7 +17,7 @@ const jobSchema = new mongoose.Schema({
     type: String,
   },
   companyName: {
-    type: Sring,
+    type: String,
   },
   experiance: {
     type: String,
@@ -35,7 +35,8 @@ const jobSchema = new mongoose.Schema({
     },
     max : {
     type : Number
-  },
+  } },
+
   isActive: {
     type: Boolean,
     default: true,
@@ -45,13 +46,14 @@ const jobSchema = new mongoose.Schema({
     default: Date.now(),
   },
   createdBy: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }
   }
-});
+);
 
 const Job = mongoose.model('Job' , jobSchema)
+export default Job
 //job title
 //location
 //jobDescription
