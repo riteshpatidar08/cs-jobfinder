@@ -23,9 +23,17 @@ export const createJob = async (req, res) => {
 
 export const getJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate('createdBy', 'name email');
+    const { totalItems = 10, currentPage = 2 } = req.query;
+    const jobs = await Job.find()
+      .sort({ postedDate: -1 })
+      .limit(totalItems)
+      .skip((currentPage - 1) * totalItems)
+      .populate('createdBy', 'name email');
+
+    const totalJobs = Job.countDocuments();
     res.status(200).json({
       message: 'job fetched successfully',
+      totalPages: Math.ceil(totalJobs / totalItems),
       length: jobs.length,
       data: jobs,
     });

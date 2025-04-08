@@ -59,6 +59,12 @@ const UserScehma = new mongoose.Schema({
       type: String,
     },
   },
+  appliedJobs : [{
+  jobId : [{
+      type : mongoose.Schema.Types.ObjectId ,
+      ref : 'Job'
+    }]
+  }]
 });
 
 UserScehma.pre('save', function (next) {
