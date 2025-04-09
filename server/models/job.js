@@ -50,7 +50,7 @@ const jobSchema = new mongoose.Schema({
     ref: 'User',
   } ,
   applicants : [{
-    userId :{
+    userId : {
       type : mongoose.Schema.Types.ObjectId ,
       ref : "User"
     },

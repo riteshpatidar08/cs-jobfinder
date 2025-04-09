@@ -46,59 +46,112 @@ export const getJobs = async (req, res) => {
   }
 };
 
-
-
-export const applyJob = async(req,res) => {
+export const applyJob = async (req, res) => {
   try {
-    const {userId , jobId} = req.body ;
-    //NOTE find the user by using userId 
-    const user = await User.findById(userId) ;
+    const { userId, jobId } = req.body;
+    //NOTE find the user by using userId
+    const user = await User.findById(userId);
 
-    //NOTE handle the case if user is not exist 
-    if(!user) {
+    //NOTE handle the case if user is not exist
+    if (!user) {
       res.status(404).json({
-        message : "user is not found"
-      })
+        message: 'user is not found',
+      });
     }
 
     //if user found extract the resume
-    const resume = user.jobseeker.resume
+    const resume = user.jobseeker.resume;
 
-    if(!resume){
+    if (!resume) {
       res.status(404).json({
-        message : 'Resume not found please upload your resume' 
-      })
+        message: 'Resume not found please upload your resume',
+      });
     }
 
-    const job = await Job.findById(jobId) ;
+    const job = await Job.findById(jobId);
 
-     if(!user) {
+    if (!user) {
       res.status(404).json({
-        message : "job is not found"
-      })
+        message: 'job is not found',
+      });
     }
-    const appliedJob = user.appliedJobs.jobId.some((id)=> id.toString() === jobId)
+    console.log(user);
+    const appliedJob = user.appliedJobs.jobId.some(
+      (id) => id.toString() === jobId
+    );
 
-    if(appliedJob){
+    if (appliedJob) {
       res.status(400).json({
-        message : "You have already applied for this job"
-      })
+        message: 'You have already applied for this job',
+      });
     }
 
-  job.applicants.push({
-    userId ,
-    resume 
-  })
+    job.applicants.push({
+      userId,
+      resume,
+    });
 
-  user.appliedJobs.jobId.push(jobId)
-  
-await user.save() 
-await job.save() 
+    user.appliedJobs.jobId.push(jobId);
 
-res.status(200).json({
-  message : "Job applied Successfully"
-})
+    await user.save();
+    await job.save();
+
+    res.status(200).json({
+      message: 'Job applied Successfully',
+    });
   } catch (error) {
-    
+    res.status(500).json({
+      message: error.message,
+    });
   }
+};
+
+// next api
+//getJobsByCreator
+//getApplicants
+//getAppliedJobs
+//statusUpdate
+//deactivateJob
+//deactivateUser
+//profileUpdate
+//forgetPassword
+//updatePassword
+
+export const getJobByCreator = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const jobs = await Job.find({ createdBy: id }).populate(
+      'createdBy',
+      'name email'
+    );
+    //we get the jobs
+    console.log(jobs);
+    res.status(200).json({
+      message: 'Jobs fetched Successfull',
+      jobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const getApplicants = async (req, res) => {
+  try {
+    //first step applicants => JOB
+    const { id } = req.params;
+    //get the jobid
+    const applicants = await Job.findById(id).populate('applicants.userId' , 'name email');
+ res.status(200).json({
+  applicants
+ })
+  } catch (error) {
+
+  }
+};
+
+
+export const statusUpdate = async(req,res) => {
+  
 }
